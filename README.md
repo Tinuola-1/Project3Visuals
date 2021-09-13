@@ -4,6 +4,12 @@
 ## Data Sources
 [Realtor.com](https://www.realtor.com/research/data/)
 
+## Technologies
+- Python
+- Flask
+
+
+
 ## Creators
 - [Bryant Mondragon](https://github.com/MondragB)
 - [Walter Depalma](https://github.com/Wdepalma)
