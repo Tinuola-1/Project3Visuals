@@ -27,11 +27,11 @@ price_data = [{"states": result[0], "median_listing_price": result[1]}
 conn.close()
 print(type(price_data))
 
-df = pd.DataFrame(price_data)
-state_pr = df.groupby('states').agg(
-    median_price=('median_listing_price', 'mean'))
+# df = pd.DataFrame(price_data)
+# state_pr = df.groupby('states').agg(
+#     median_price=('median_listing_price', 'mean'))
 
-jstate_pr = state_pr.to_json()
+# jstate_pr = state_pr.to_json()
 
 
 app = Flask(__name__)
@@ -45,7 +45,6 @@ moons = {"Jupiter": ["Io", "Ganymede", "Europa", "Callisto"],
 @app.route("/")
 def Home():
     return render_template("index.html")
-    # return jsonify(moons=moons)
 
 
 @app.route("/datapage")
