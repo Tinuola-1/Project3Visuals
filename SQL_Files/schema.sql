@@ -157,7 +157,7 @@ CREATE TABLE Monthly_By_Metro (
     state_id VARCHAR,
     cbsa_code INT,
     cbsa_title VARCHAR,
-    HouseholdRank INT,
+    HouseHoldRank INT,
     median_listing_price NUMERIC,
     median_listing_price_mm NUMERIC,
     median_listing_price_yy NUMERIC,
