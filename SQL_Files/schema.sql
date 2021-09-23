@@ -157,7 +157,7 @@ CREATE TABLE Monthly_By_Metro (
     state_id VARCHAR,
     cbsa_code INT,
     cbsa_title VARCHAR,
-    HouseholdRank INT,
+    HouseHoldRank INT,
     median_listing_price NUMERIC,
     median_listing_price_mm NUMERIC,
     median_listing_price_yy NUMERIC,
@@ -274,7 +274,19 @@ CREATE TABLE Weekly_By_Metro (
     price_reduced_share_yy NUMERIC,
     PRIMARY KEY (record_key)
 );
+
+----------  Table 9 -------------
 CREATE TABLE States (
     state_long_name VARCHAR,
     state_short_name VARCHAR,
-)
+);
+
+----------  Table 10 -------------
+
+CREATE TABLE State_Cords (
+    record_key SERIAL,
+    States VARCHAR,
+    Latitude NUMERIC,
+    Longitude NUMERIC,
+    PRIMARY KEY (record_key)
+);
