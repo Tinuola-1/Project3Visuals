@@ -32,7 +32,7 @@ console.log(avg_price);
 
 var trace1 = {
   x: when,
-  y: price,
+  y: [180000,22000,280000],
   mode: 'lines',
   type: 'scatter',
   line: {
@@ -51,11 +51,10 @@ var layout = {
   title:'Historic Median and Average Listing Price',
   width: 800,
   height: 600,
-  xaxis: { type: 'date' },
   yaxis: { autorange: false, range:[100000, 300000] },
 };
 
-var plot_data = [trace1, trace2];
+var plot_data = [trace1];
 Plotly.newPlot("LinePlot", plot_data, layout);
  
 

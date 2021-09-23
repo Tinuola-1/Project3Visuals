@@ -10,7 +10,9 @@ import json
 
 postgres = "postgres"
 Real_Estate = "Real_Estate"
+Real_Estate_P3 = "Real_Estate_P3"
 monthly_by_state = "monthly_by_state"
+hotness_by_metro = "hotness_by_metro"
 
 # postgres_url = f"postgresql://postgres:{config.postgres_pwd}@127.0.0.1:5432/{db_name}"
 postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate}"
@@ -26,15 +28,30 @@ price_data = [ {"states": result[0], "state_id":result[1],"median_listing_price"
               for result in results]
 
 conn.close()
+#  Gather Metro Hotness Scrore Data
+
+postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate_P3}"
+conn = psycopg2.connect(postgres_url)
+cursor = conn.cursor()
+
+cursor.execute(f'''SELECT metro, state_id, hotness_score 
+         from {hotness_by_metro} WHERE month_date_yyyymm = 202108''')
+
+results2 = cursor.fetchall()
+hot_data = [ {"metro": result[0], "state_id":result[1],"hotness_score": result[2]}
+              for result in results2]
+
+conn.close()
 
 
+#Arrange Listing Price data:
 df = pd.DataFrame(price_data)
 gdf = df.groupby(['states', 'month_date_yyyymm'], as_index=False).sum()
-
-
 state_h = gdf.to_json(orient = "index")
 
-
+#Arrange metro hotness score data:
+mhdf = pd.DataFrame(hot_data)
+metro_hot = mhdf.to_json(orient = "index")
 
 
 app = Flask(__name__)
@@ -68,6 +85,9 @@ def transform():
 def meanMedians():
     return render_template("MM.html")
 
+@app.route("/page4")
+def metroHotness():
+    return(metro_hot)
 
 
 if __name__ == "__main__":
