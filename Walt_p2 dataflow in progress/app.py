@@ -17,19 +17,23 @@ postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate}"
 conn = psycopg2.connect(postgres_url)
 cursor = conn.cursor()
 
-cursor.execute(f'''SELECT state, median_listing_price, month_date_yyyymm, average_listing_price from {monthly_by_state}''')
+cursor.execute(f'''SELECT state, state_id, median_listing_price,
+        month_date_yyyymm, average_listing_price from {monthly_by_state}''')
 
 results = cursor.fetchall()
-price_data = [ {"states": result[0], "median_listing_price": result[1], "average_listing_price":result[3], "month_date_yyyymm":results[2]} for result in results]
+price_data = [ {"states": result[0], "state_id":result[1],"median_listing_price": result[2], "month_date_yyyymm": result[3],
+               "average_listing_price": result[4]}
+              for result in results]
 
 conn.close()
-print(price_data)
+
 
 df = pd.DataFrame(price_data)
-state_pr = df.groupby('states').agg(median_price = ('median_listing_price','mean'))
-print(type(state_pr))
+gdf = df.groupby(['states', 'month_date_yyyymm'], as_index=False).sum()
+# state_pr = df.groupby('states').agg(median_price = ('median_listing_price','mean'))
+#print(type(state_pr))
 
-jstate_pr = state_pr.to_json()
+state_h = gdf.to_json(orient = "index")
 
 
 
@@ -59,7 +63,7 @@ def visual ():
 
 @app.route("/page3")
 def transform():
-    return(jstate_pr)
+    return(state_h)
 
 @app.route("/State_Mean_Medians")
 def meanMedians():
