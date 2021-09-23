@@ -30,8 +30,7 @@ conn.close()
 
 df = pd.DataFrame(price_data)
 gdf = df.groupby(['states', 'month_date_yyyymm'], as_index=False).sum()
-# state_pr = df.groupby('states').agg(median_price = ('median_listing_price','mean'))
-#print(type(state_pr))
+
 
 state_h = gdf.to_json(orient = "index")
 
