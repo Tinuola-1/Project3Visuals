@@ -20,7 +20,7 @@ function optionChanged(x){
   var l_state = x.toLowerCase();
   console.log(l_state)
 
-  d3.json("/page3").then(function(data) { 
+  d3.json("/statedata").then(function(data) { 
     var state_h = data 
     // console.log(l_state)
     //Get json data from /page3 containing median and average listing price per year for each state.
@@ -75,7 +75,7 @@ function optionChanged(x){
     //Find abbreviation for state selected
     metros = []
     hots = []
-    d3.json("/page5").then(function(st_abr) {
+    d3.json("/stateAbr").then(function(st_abr) {
       var state_abrevs = st_abr
       console.log(state_abrevs)
       for (var st in state_abrevs){
@@ -85,7 +85,7 @@ function optionChanged(x){
           console.log("abr", sid);
         }
       //Gather json data from /page4 containing metro area and hotness index.
-      d3.json("/page4").then(function(hotdata) { 
+      d3.json("/hotness").then(function(hotdata) { 
         var metro_h = hotdata 
         console.log(hotdata)
   
