@@ -43,6 +43,23 @@ hot_data = [ {"metro": result[0], "state_id":result[1],"hotness_score": result[2
 
 conn.close()
 
+# gathering price per sq foot and median listing sq foot data
+postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate}"
+conn = psycopg2.connect(postgres_url)
+cursor = conn.cursor()
+
+cursor.execute(f'''SELECT state, median_square_feet, median_listing_price_per_square_foot,
+        month_date_yyyymm from {monthly_by_state}''')
+
+results = cursor.fetchall()
+foot_data = [ {"states": result[0], "med_sq_ft":result[1],"median_ppf": result[2], "month_date_yyyymm": result[3]
+               }
+              for result in results]
+
+conn.close()
+# Arrange sq foot data
+sqft_df = pd.DataFrame(foot_data)
+
 
 #Arrange Listing Price data:
 df = pd.DataFrame(price_data)
