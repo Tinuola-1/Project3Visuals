@@ -1,21 +1,17 @@
-from bs4 import BeautifulSoup
 from flask import Flask, render_template
+from flask import jsonify
 
-import pandas as pd
 import psycopg2
+import sys
+import json
 
 # Create an instance of our Flask app.
 app = Flask(__name__)
 
-postgres = 'postgres'
-db_name = 'Real_Estate'
-
-# Create connection variable
-postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{db_name}"
-
-# Pass connection to the pymongo instance.
-conn = psycopg2.connect(postgres_url)
-
+# DB connection settings
+con = psycopg2.connect(
+    "host='localhost' dbname='Real_Estate' user='postgres' password='postgres'")
+cur = con.cursor()
 
 # Index Page Route
 
@@ -24,7 +20,7 @@ conn = psycopg2.connect(postgres_url)
 def index():
     return render_template("index.html")
 
-# states Page Route
+# States Page Route
 
 
 @app.route("/statesPage")
@@ -37,6 +33,16 @@ def state():
 @app.route("/metroPage")
 def metro():
     return render_template("metroPage.html")
+
+# Data retriaval page
+
+
+@app.route('/hotnessdata')
+def grab_data():
+    cur.execute("""select * from  hotness_by_county limit 1000""")
+    data = [col for col in cur]
+    return jsonify(data)
+    # return 'Data Retriaval Successful. <a href="/">Go back</a>'
 
 
 if __name__ == "__main__":

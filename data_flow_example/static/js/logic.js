@@ -1,14 +1,59 @@
- // The first parameter are the coordinates of the center of the map
-// The second parameter is the zoom level
-let map = L.map('map-id').setView([40.712, -74.006], 11);
+d3.json("/hotnessdata", function(data) {
+  console.log(data)
 
-// {s}, {z}, {x} and {y} are placeholders for map tiles
-// {x} and {y} are the x/y of where you are on the map
-// {z} is the zoom level
-// {s} is the subdomain of cartodb
-let layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+  // function unpack(rows, key) {
+  //   return rows.map(function(row) { return row[key]; });
+  // }
+
+  locations = [];
+  z = [];
+  text = [];
+
+  data.forEach(element => {
+    locations.push(element[2].trim().toUpperCase());
+    z.push(element[8]);
+    text.push(element[6]);
+    console.log(`The value of data[i][3] is: ${element[8]}`)
+  });
+
+  console.log(locations);
+  console.log(z);
+  console.log(text);
+
+  let results = [{
+    type: 'choropleth',
+    locationmode: 'USA-states',
+    locations: locations,
+    z: z,
+    text: text,
+    zmin: 0,
+    zmax: 1500,
+    colorscale: [
+        [0, 'rgb(242,240,247)'], [0.2, 'rgb(218,218,235)'],
+        [0.4, 'rgb(188,189,220)'], [0.6, 'rgb(158,154,200)'],
+        [0.8, 'rgb(117,107,177)'], [1, 'rgb(84,39,143)']
+    ],
+    colorbar: {
+        title: 'Hotness Rank',
+    },
+    marker: {
+        line:{
+            color: 'rgb(255,255,255)',
+            width: 2
+        }
+    }
+}];
+
+let layout = {
+    title: 'Hotness Rating by State',
+    geo:{
+        scope: 'usa',
+        showlakes: true,
+        lakecolor: 'rgb(255,255,255)'
+    },
+    paper_bgcolor: "rgba(0,0,0,0)",
+    plot_bgcolor: "rgba(0,0,0,0)"
+};
+
+Plotly.newPlot("myDiv", results, layout, {showLink: false});
 });
-
-// Now add the layer onto the map
-map.addLayer(layer);
