@@ -24,7 +24,19 @@ This database is meant to serve avid movie watchers, reviewers and even data ana
 ## Technologies
 
 - Python
+   - Pandas
 - Flask
+   - SQL Alchemy
+   - Pscycopg2
+- HTML/CSS
+   - Bootstrap
+- Javascript
+   - D3
+   - JSON
+   - Plotly
+   - Choropleth
+- Postgres
+- CSVs
 
 ## Creators
 
