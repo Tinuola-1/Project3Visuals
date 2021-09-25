@@ -38,6 +38,15 @@ This database is meant to serve avid movie watchers, reviewers and even data ana
 - Postgres
 - CSVs
 
+
+## Data Processinng
+
+We extracted the data from [Realtor.com](https://www.realtor.com/research/data/)
+
+## File Structre
+
+## Data Visulization
+
 ## Creators
 
 - [Bryant Mondragon](https://github.com/MondragB)
