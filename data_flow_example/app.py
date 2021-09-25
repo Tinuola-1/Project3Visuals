@@ -9,17 +9,16 @@ import pandas as pd
 # Create an instance of our Flask app.
 app = Flask(__name__)
 
-# DB connection settings
-con = psycopg2.connect(
-    "host='localhost' dbname='Real_Estate' user='postgres' password='postgres'")
-cur = con.cursor()
-
 ####################################################################
 ####################################################################
 # Data Retrevial - Walter's Part
 monthly_by_state = "monthly_by_state"
 hotness_by_metro = "hotness_by_metro"
 states_tbl = "states"
+
+con = psycopg2.connect(
+    "host='localhost' dbname='Real_Estate' user='postgres' password='postgres'")
+cur = con.cursor()
 
 cur.execute(f'''SELECT state, state_id, median_listing_price,
         month_date_yyyymm, average_listing_price from {monthly_by_state}''')
@@ -28,7 +27,13 @@ results = cur.fetchall()
 price_data = [{"states": result[0], "state_id":result[1], "median_listing_price": result[2],
                "month_date_yyyymm": result[3], "average_listing_price": result[4]} for result in results]
 
+con.close()
 #  Gather Metro Hotness Scrore Data
+
+# DB connection settings
+con = psycopg2.connect(
+    "host='localhost' dbname='Real_Estate' user='postgres' password='postgres'")
+cur = con.cursor()
 
 cur.execute(
     f'''SELECT metro, state_id, hotness_score from {hotness_by_metro} WHERE month_date_yyyymm = 202108''')
@@ -37,8 +42,13 @@ results2 = cur.fetchall()
 hot_data = [{"metro": result[0], "state_id":result[1], "hotness_score": result[2]}
             for result in results2]
 
-
+con.close()
 # Gathering State abreviation data to add to hotness table/dataframe:
+
+# DB connection settings
+con = psycopg2.connect(
+    "host='localhost' dbname='Real_Estate' user='postgres' password='postgres'")
+cur = con.cursor()
 
 cur.execute(
     f'''SELECT state_long_name, state_short_name from {states_tbl}''')
@@ -46,6 +56,7 @@ cur.execute(
 results = cur.fetchall()
 state_ids = [{"state_nm": result[0], "abr": result[1]} for result in results]
 
+con.close()
 
 # Arrange Listing Price data:
 df = pd.DataFrame(price_data)
@@ -59,6 +70,8 @@ stid = pd.DataFrame(state_ids)
 
 metro_hot = mhdf.to_json(orient="index")
 st_abr = stid.to_json(orient="index")
+
+
 ####################################################################
 ####################################################################
 
@@ -88,9 +101,14 @@ def metro():
 
 @app.route('/hotnessdata')
 def grab_data():
-    cur.execute("""select * from  hotness_by_county limit 1000""")
+    # DB connection settings
+    con = psycopg2.connect(
+        "host='localhost' dbname='Real_Estate' user='postgres' password='postgres'")
+    cur = con.cursor()
+    cur.execute("""select * from  hotness_by_county limit 4000""")
     data = [col for col in cur]
     return jsonify(data)
+    con.close()
     # return 'Data Retriaval Successful. <a href="/">Go back</a>'
 
 
