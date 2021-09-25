@@ -5,9 +5,9 @@ d3.json("/hotnessdata", function(data) {
     text = [];
 
     data.forEach(element => {
-        locations.push(element[2].trim().toUpperCase());
-        z.push(element[8]);
-        text.push(element[6]);
+        locations.push(element[1].trim().toUpperCase());
+        z.push(element[7]);
+        text.push(element[5]);
     });
 
     let results = [{
