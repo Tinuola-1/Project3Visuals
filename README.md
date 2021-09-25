@@ -24,7 +24,30 @@ This database is meant to serve avid movie watchers, reviewers and even data ana
 ## Technologies
 
 - Python
-- Flask
+   - Pandas
+   - Beautiful Soup
+   - Splinter
+   - Flask Framework
+   - SQL Alchemy (Object-Relational Mapper)
+   - Pscycopg2 (Database Adapter)
+- HTML/CSS
+   - Bootstrap
+- Javascript
+   - D3
+   - JSON
+   - Plotly
+   - Choropleth
+- SQL/Postgres
+- Microsoft CSV
+
+
+## Data Processinng
+
+We extracted the data from [Realtor.com](https://www.realtor.com/research/data/)
+
+## File Structre
+
+## Data Visulization
 
 ## Creators
 
