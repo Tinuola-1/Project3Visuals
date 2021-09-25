@@ -55,5 +55,7 @@ let layout = {
     plot_bgcolor: "rgba(0,0,0,0)"
 };
 
-Plotly.newPlot("myDiv", results, layout, {showLink: false});
+var config = {responsive: true}
+
+Plotly.newPlot("myDiv", results, layout, config, {showLink: false});
 });
