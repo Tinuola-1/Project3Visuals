@@ -21,6 +21,10 @@ html {
   height: 100%;
 }
 
+#map-id {
+  border-style: solid;
+}
+
 .navbar-brand {
   color: white !important;
   font-weight: bold !important;
