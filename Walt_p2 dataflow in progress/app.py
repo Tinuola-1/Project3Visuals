@@ -1,20 +1,16 @@
 from flask import Flask, jsonify, render_template, redirect
-import os
-import sqlite3
 import psycopg2
-import socket
 import pandas as pd
-import numpy as np
-from sqlalchemy import create_engine
 import json
 
 postgres = "postgres"
 Real_Estate = "Real_Estate"
-Real_Estate_P3 = "Real_Estate_P3"
+
 monthly_by_state = "monthly_by_state"
 hotness_by_metro = "hotness_by_metro"
+states_tbl = "states"
 
-# postgres_url = f"postgresql://postgres:{config.postgres_pwd}@127.0.0.1:5432/{db_name}"
+# Create postgres connections and query state historic data for listing prices and hotness indices.
 postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate}"
 conn = psycopg2.connect(postgres_url)
 cursor = conn.cursor()
@@ -30,7 +26,7 @@ price_data = [ {"states": result[0], "state_id":result[1],"median_listing_price"
 conn.close()
 #  Gather Metro Hotness Scrore Data
 
-postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate_P3}"
+postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate}"
 conn = psycopg2.connect(postgres_url)
 cursor = conn.cursor()
 
@@ -43,22 +39,21 @@ hot_data = [ {"metro": result[0], "state_id":result[1],"hotness_score": result[2
 
 conn.close()
 
-# gathering price per sq foot and median listing sq foot data
+
+
+#Gathering State abreviation data to add to hotness table/dataframe:
 postgres_url = f"postgresql://postgres:{postgres}@127.0.0.1:5432/{Real_Estate}"
 conn = psycopg2.connect(postgres_url)
 cursor = conn.cursor()
 
-cursor.execute(f'''SELECT state, median_square_feet, median_listing_price_per_square_foot,
-        month_date_yyyymm from {monthly_by_state}''')
+cursor.execute(f'''SELECT state_long_name, state_short_name from {states_tbl}''')
 
 results = cursor.fetchall()
-foot_data = [ {"states": result[0], "med_sq_ft":result[1],"median_ppf": result[2], "month_date_yyyymm": result[3]
+state_ids = [ {"state_nm": result[0], "abr":result[1]
                }
               for result in results]
 
 conn.close()
-# Arrange sq foot data
-sqft_df = pd.DataFrame(foot_data)
 
 
 #Arrange Listing Price data:
@@ -68,32 +63,21 @@ state_h = gdf.to_json(orient = "index")
 
 #Arrange metro hotness score data:
 mhdf = pd.DataFrame(hot_data)
+stid = pd.DataFrame(state_ids)
+
+
 metro_hot = mhdf.to_json(orient = "index")
+st_abr = stid.to_json(orient = "index")
+
 
 
 app = Flask(__name__)
-
-moons = {"Jupiter": ["Io","Ganymede","Europa","Callisto"],
-        "Saturn": ["Titan","Enceladus","Dione"],
-        "Uranus": ["Ariel","Belinda","Oberon","Titania"],
-        "Neptune": ["Despina","Nereid","Triton","Larissa"]}
 
 
 @app.route("/")
 def Home():
     return render_template("index.html")
-    # return jsonify(moons=moons)
-
-@app.route("/datapage")
-def using_api_for_data():
-    print("responding to raw-web-api route: ")
-
-    return jsonify(moons)
-
-@app.route("/page2")
-def visual ():
-    return jsonify(price_data)
-
+    
 @app.route("/page3")
 def transform():
     return(state_h)
@@ -105,6 +89,10 @@ def meanMedians():
 @app.route("/page4")
 def metroHotness():
     return(metro_hot)
+
+@app.route("/page5")
+def state_abr():
+    return(st_abr)
 
 
 if __name__ == "__main__":
