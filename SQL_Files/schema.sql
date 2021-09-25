@@ -274,15 +274,12 @@ CREATE TABLE Weekly_By_Metro (
     price_reduced_share_yy NUMERIC,
     PRIMARY KEY (record_key)
 );
-
 ----------  Table 9 -------------
 CREATE TABLE States (
     state_long_name VARCHAR,
-    state_short_name VARCHAR,
+    state_short_name VARCHAR
 );
-
 ----------  Table 10 -------------
-
 CREATE TABLE State_Cords (
     record_key SERIAL,
     States VARCHAR,
