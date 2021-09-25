@@ -43,7 +43,10 @@ This database is meant to serve avid movie watchers, reviewers and even data ana
 
 ## Data Processinng
 
-We extracted the data from [Realtor.com](https://www.realtor.com/research/data/)
+We were able to extract the data from [Realtor.com](https://www.realtor.com/research/data/) website where [CSV files](https://github.com/Tinuola-1/Project3Visuals/tree/main/Dataset) were structred for database use, and contain multiple metrics for different levels of geography down to zip code level. These files record Market trends and monthly statistics on active for-sale listings (including median list price, average list price, luxury list price, median days on market, average days on market, total active listings, new listings, price increases, price reductions).
+
+   - ‘Monthly Inventory’ shows figures for the latest month available as well as Historical data going back in time. 
+   - 'Market Hotness' contains scores and rankings based on days on market (supply index) and realtor.com views per property (demand index).
 
 ## File Structre
 
