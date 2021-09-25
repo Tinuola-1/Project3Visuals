@@ -25,9 +25,11 @@ This database is meant to serve avid movie watchers, reviewers and even data ana
 
 - Python
    - Pandas
-- Flask
-   - SQL Alchemy
-   - Pscycopg2
+   - Beautiful Soup
+   - Splinter
+   - Flask Framework
+   - SQL Alchemy (Object-Relational Mapper)
+   - Pscycopg2 (Database Adapter)
 - HTML/CSS
    - Bootstrap
 - Javascript
@@ -35,8 +37,8 @@ This database is meant to serve avid movie watchers, reviewers and even data ana
    - JSON
    - Plotly
    - Choropleth
-- Postgres
-- CSVs
+- SQL/Postgres
+- Microsoft CSV
 
 
 ## Data Processinng
