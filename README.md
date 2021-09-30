@@ -6,8 +6,6 @@
 
 This project revolves around putting to use all aspects that we have learned up until this point. Here we decided to go ahead and focus on one  main source *Realtor.com*. This site hosts multiple different datasets that we felt would appropriately satisfy almost anyones needs. Our goal is to provide a webapp/service where people can come view different types of data and visualizations in the housing market to better make decisions and or investments. A good portion of this project is getting a good normalization of the data and making sure it is atomic. The data provided for this project is broken up into multiple parts that we will provide access to - it ranges from as frequent as weekly updates to yearly and each set has data going back three or four years depending on the one you look at. We decided to keep most if not all the data in the files to ensure anyone would have access to all the relevant information from each file. Once the data is extracted, and cleaned/transformed, it will be loaded into a Postgres database.
 
-This database is meant to serve avid movie watchers, reviewers and even data analyst. The final database will contain data on the cast, the crew, revenue, ratings and even keywords which allow this dataset to be pretty universal in terms scope. You can build and view trends, you will be able to compare and contrast different movies and even build something like a movie watching guide based on factors of your choosing.
-
 ## Table of Contents
 
 - [Real Estate Data Analysis](#real-estate-data-analysis)
@@ -15,6 +13,9 @@ This database is meant to serve avid movie watchers, reviewers and even data ana
   - [Table of Contents](#table-of-contents)
   - [Data Sources](#data-sources)
   - [Technologies](#technologies)
+  - [Data Processinng](#data-processinng)
+  - [File Structre](#file-structre)
+  - [Data Visulization](#data-visulization)
   - [Creators](#creators)
 
 ## Data Sources
